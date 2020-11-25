@@ -80,7 +80,7 @@ public class Teleop_Team16310_4WheelTest2020 extends LinearOpMode {
         BackRightDrive.setDirection(DcMotor.Direction.REVERSE);
         FrontLeftDrive.setDirection(DcMotor.Direction.FORWARD);
         FrontRightDrive.setDirection(DcMotor.Direction.REVERSE);
-
+        InTakeMotor.setDirection(DcMotor.Direction.REVERSE);
 
         // Wait for the start button
         telemetry.addData(">", "Press Start to scan Servo." );
@@ -109,13 +109,10 @@ public class Teleop_Team16310_4WheelTest2020 extends LinearOpMode {
             telemetry.addData("game pad2 right stick Position", "%5.2f", turn2);
             telemetry.update();
 
-
             double drive = gamepad1.left_stick_y;
             double turn = -gamepad1.right_stick_x;
-            leftPower = Range.clip(drive + turn, -1, 1);
-            rightPower = Range.clip(drive - turn, -1, 1);
-
-
+            leftPower = Range.clip(drive + turn * 0.2, -1, 1);
+            rightPower = Range.clip(drive - turn * 0.2, -1, 1);
 
             // Send calculated power to wheels
             BackLeftDrive.setPower(leftPower);
@@ -123,8 +120,6 @@ public class Teleop_Team16310_4WheelTest2020 extends LinearOpMode {
             FrontLeftDrive.setPower(leftPower);
             FrontRightDrive.setPower(rightPower);
             InTakeMotor.setPower(gamepad1.left_trigger);
-
-
         }
     }
 }
