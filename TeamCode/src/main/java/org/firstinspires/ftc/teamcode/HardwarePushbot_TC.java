@@ -59,7 +59,8 @@ public class HardwarePushbot_TC
     public DcMotor  backLeft  = null;
     public DcMotor  backRight  = null;
     public DcMotor arm = null;
-    public Servo up = null;
+    public Servo armServo = null;
+    public Servo gripServo = null;
 
 
     public Servo Claw = null;
@@ -90,6 +91,8 @@ public class HardwarePushbot_TC
         backLeft =  hwMap.get(DcMotor.class, "BackLeft");
         backRight = hwMap.get(DcMotor.class, "BackRight");
         arm = hwMap.get(DcMotor.class,"Arm");
+        armServo = hwMap.get(Servo.class,"arm");
+        gripServo = hwMap.get(Servo.class,"grip");
         frontLeft.setDirection(DcMotor.Direction.REVERSE); // Set to REVERSE if using AndyMark motors
         frontRight.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
         backLeft.setDirection(DcMotor.Direction.REVERSE);

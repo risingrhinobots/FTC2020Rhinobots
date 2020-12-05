@@ -112,7 +112,12 @@ public class RedRight extends LinearOpMode
 
 
 
+        robot.armServo.setPosition(0.20);
+
+
         waitForStart();
+
+        robot.armServo.setPosition(0.20);
 
         while (opModeIsActive())
         {
@@ -120,7 +125,9 @@ public class RedRight extends LinearOpMode
             telemetry.addData("Position", pipeline.position);
             telemetry.update();
 
-            encoderDriveArm(0.2,10.0,5.0);
+            //encoderDriveArm(0.2,10.0,5.0);
+
+            robot.armServo.setPosition(0.35);
 
             if(pipeline.getAnalysis() > 165){
                 telemetry.addLine("four");
@@ -316,7 +323,7 @@ public class RedRight extends LinearOpMode
             return;
         }
     }
-
+/*
     public void encoderDriveArm(double speed,
                                 double ArmInches,
                                 double timeoutS) {
@@ -367,4 +374,6 @@ public class RedRight extends LinearOpMode
             return;
         }
     }
+
+ */
 }
