@@ -29,6 +29,7 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -61,6 +62,7 @@ public class HardwarePushbot_TC
     public DcMotor arm = null;
     public Servo armServo = null;
     public Servo gripServo = null;
+    public CRServo contservo = null;
 
 
     public Servo Claw = null;
@@ -93,6 +95,7 @@ public class HardwarePushbot_TC
         arm = hwMap.get(DcMotor.class,"Arm");
         armServo = hwMap.get(Servo.class,"arm");
         gripServo = hwMap.get(Servo.class,"grip");
+        contservo = hwMap.get(CRServo.class,"cont");
         frontLeft.setDirection(DcMotor.Direction.REVERSE); // Set to REVERSE if using AndyMark motors
         frontRight.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
         backLeft.setDirection(DcMotor.Direction.REVERSE);

@@ -111,7 +111,6 @@ public class MecanumEncoder extends LinearOpMode {
         waitForStart();
 
         encoderDrive(0.2, 10.0,10.0,10.0,10.0,5.0);
-
         //encoderDrive(DRIVE_SPEED,-20.0,-20.0,-20.0,-20.0,3.0);
 
         //encoderDrive(DRIVE_SPEED,-20.0,20.0,20.0,-20.0,3.0);
