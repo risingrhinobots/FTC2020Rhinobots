@@ -100,7 +100,7 @@ public class MecanumEncoder extends LinearOpMode {
         robot.backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // Send telemetry message to indicate successful Encoder reset
-        telemetry.addData("Path0",  "Starting at %7d :%7d",
+        telemetry.addData("Path0", "Starting at %7d :%7d",
                 robot.frontLeft.getCurrentPosition(),
                 robot.frontRight.getCurrentPosition());
         robot.backLeft.getCurrentPosition();
@@ -110,7 +110,7 @@ public class MecanumEncoder extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
-        encoderDrive(0.2, 10.0,10.0,10.0,10.0,5.0);
+        encoderDrive(0.5, 27.0, 27.0, 27.0, 27.0, 5.0);
         //encoderDrive(DRIVE_SPEED,-20.0,-20.0,-20.0,-20.0,3.0);
 
         //encoderDrive(DRIVE_SPEED,-20.0,20.0,20.0,-20.0,3.0);

@@ -60,18 +60,18 @@ public class HardwarePushbot_TC
     public DcMotor  backLeft  = null;
     public DcMotor  backRight  = null;
     public DcMotor arm = null;
-    public Servo armServo = null;
-    public Servo gripServo = null;
-    public CRServo contservo = null;
+    //public Servo armServo = null;
+    //public Servo gripServo = null;
+    //public CRServo contservo = null;
 
 
-    public Servo Claw = null;
-    public Servo BrickL = null;
-    public Servo BrickR = null;
+    //public Servo Claw = null;
+    //public Servo BrickL = null;
+    //public Servo BrickR = null;
 
-    public static final double MID_SERVO       =  0.5 ;
-    public static final double ARM_UP_POWER    =  0.45 ;
-    public static final double ARM_DOWN_POWER  = -0.45 ;
+    //public static final double MID_SERVO       =  0.5 ;
+    //public static final double ARM_UP_POWER    =  0.45 ;
+    //public static final double ARM_DOWN_POWER  = -0.45 ;
 
     /* local OpMode members. */
     HardwareMap hwMap           =  null;
@@ -92,20 +92,21 @@ public class HardwarePushbot_TC
         frontRight = hwMap.get(DcMotor.class, "FrontRight");
         backLeft =  hwMap.get(DcMotor.class, "BackLeft");
         backRight = hwMap.get(DcMotor.class, "BackRight");
-        arm = hwMap.get(DcMotor.class,"Arm");
-        armServo = hwMap.get(Servo.class,"arm");
-        gripServo = hwMap.get(Servo.class,"grip");
-        contservo = hwMap.get(CRServo.class,"cont");
+        //arm = hwMap.get(DcMotor.class,"Arm");
+        //armServo = hwMap.get(Servo.class,"arm");
+        //gripServo = hwMap.get(Servo.class,"grip");
+        //contservo = hwMap.get(CRServo.class,"cont");
         frontLeft.setDirection(DcMotor.Direction.REVERSE); // Set to REVERSE if using AndyMark motors
         frontRight.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
         backLeft.setDirection(DcMotor.Direction.REVERSE);
         backRight.setDirection(DcMotor.Direction.FORWARD);
-        arm.setDirection(DcMotor.Direction.FORWARD);
+        //arm.setDirection(DcMotor.Direction.FORWARD);
+
         frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        //arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
         // Set all motors to zero power
@@ -113,7 +114,7 @@ public class HardwarePushbot_TC
         frontRight.setPower(0);
         backLeft.setPower(0);
         backRight.setPower(0);
-        arm.setPower(0);
+        //arm.setPower(0);
 
 
 
@@ -123,7 +124,7 @@ public class HardwarePushbot_TC
         frontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
     }
 }

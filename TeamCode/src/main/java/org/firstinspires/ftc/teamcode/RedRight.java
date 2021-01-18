@@ -112,12 +112,12 @@ public class RedRight extends LinearOpMode
 
 
 
-        robot.armServo.setPosition(0.20);
+        //robot.armServo.setPosition(0.20);
 
 
         waitForStart();
 
-        robot.armServo.setPosition(0.20);
+        //robot.armServo.setPosition(0.20);
 
         while (opModeIsActive())
         {
@@ -127,7 +127,7 @@ public class RedRight extends LinearOpMode
 
             //encoderDriveArm(0.2,10.0,5.0);
 
-            robot.armServo.setPosition(0.35);
+            //robot.armServo.setPosition(0.35);
 
             if(pipeline.getAnalysis() > 165){
                 telemetry.addLine("four");
