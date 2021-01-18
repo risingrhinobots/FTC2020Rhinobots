@@ -99,13 +99,13 @@ public class TenserflowRingTest extends LinearOpMode
         /*
          * The core values which define the location and size of the sample regions
          */
-        static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(210,50);
+        static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(40,185);
 
         static final int REGION_WIDTH = 35;
         static final int REGION_HEIGHT = 25;
 
-        final int FOUR_RING_THRESHOLD = 150;
-        final int ONE_RING_THRESHOLD = 135;
+        final int FOUR_RING_THRESHOLD = 165;
+        final int ONE_RING_THRESHOLD = 145;
 
         Point region1_pointA = new Point(
                 REGION1_TOPLEFT_ANCHOR_POINT.x,

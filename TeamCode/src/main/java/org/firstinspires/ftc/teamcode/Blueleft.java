@@ -22,7 +22,6 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -41,54 +40,27 @@ import org.openftc.easyopencv.OpenCvInternalCamera;
 import org.openftc.easyopencv.OpenCvPipeline;
 
 @Autonomous
-//@Disabled
-public class Autonums_test extends LinearOpMode
+public class Blueleft extends LinearOpMode
 {
     OpenCvInternalCamera phoneCam;
     SkystoneDeterminationPipeline pipeline;
 
+    /* Declare OpMode members. */
     HardwarePushbot_TC         robot   = new HardwarePushbot_TC();   // Use a Pushbot's hardware
     private ElapsedTime runtime = new ElapsedTime();
 
     static final double     COUNTS_PER_MOTOR_REV    = 1440 ;    // eg: TETRIX Motor Encoder
-    static final double     DRIVE_GEAR_REDUCTION    = 2.0 ;     // This is < 1.0 if geared UP
+    static final double     DRIVE_GEAR_REDUCTION    = 1.0 ;     // This is < 1.0 if geared UP
     static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * 3.1415);
     static final double     DRIVE_SPEED             = 0.6;
     static final double     TURN_SPEED              = 0.5;
 
+
     @Override
     public void runOpMode()
     {
-
-        /*
-         * Initialize the drive system variables.
-         * The init() method of the hardware class does all the work here
-         */
-        robot.init(hardwareMap);
-
-        // Send telemetry message to signify robot waiting;
-        telemetry.addData("Status", "Resetting Encoders");    //
-        telemetry.update();
-
-        robot.FrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.FrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.BackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.BackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        robot.FrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.FrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.BackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.BackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        // Send telemetry message to indicate successful Encoder reset
-        telemetry.addData("Path0",  "Starting at %7d :%7d",
-                robot.FrontLeft.getCurrentPosition(),
-                robot.FrontRight.getCurrentPosition(),
-                robot.BackLeft.getCurrentPosition(),
-                robot.BackRight.getCurrentPosition());
-        telemetry.update();
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         phoneCam = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
@@ -105,27 +77,63 @@ public class Autonums_test extends LinearOpMode
             @Override
             public void onOpened()
             {
-                phoneCam.startStreaming(320,240, OpenCvCameraRotation.SIDEWAYS_LEFT);
+                phoneCam.startStreaming(320,240, OpenCvCameraRotation.SIDEWAYS_RIGHT);
             }
         });
 
+        /*
+         * Initialize the drive system variables.
+         * The init() method of the hardware class does all the work here
+         */
+        robot.init(hardwareMap);
+
+        // Send telemetry message to signify robot waiting;
+        telemetry.addData("Status", "Resetting Encoders");    //
+        telemetry.update();
+
+        robot.frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        robot.frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        // Send telemetry message to indicate successful Encoder reset
+        telemetry.addData("Path0",  "Starting at %7d :%7d",
+                robot.frontLeft.getCurrentPosition(),
+                robot.frontRight.getCurrentPosition(),
+                robot.backLeft.getCurrentPosition(),
+                robot.backRight.getCurrentPosition());
+        telemetry.update();
+
+
+
         waitForStart();
 
-        while (opModeIsActive()) {
+        while (opModeIsActive())
+        {
             telemetry.addData("Analysis", pipeline.getAnalysis());
             telemetry.addData("Position", pipeline.position);
             telemetry.update();
 
+            if(pipeline.getAnalysis() > 165){
+                telemetry.addLine("four");
+                encoderDrive(0.5,35,35,35,35,5.0);
+            }
+            else if(pipeline.getAnalysis() > 145){
+                telemetry.addLine("One");
+                encoderDrive(0.5,27,27,27,27,5.0);
+                //encoderDrive(0.2,2,-2,-2,2,5.0);
+            }
+            else {
+                telemetry.addLine("none");
+                encoderDrive(0.5,20,20,20,20,5.0);
+            }
             // Don't burn CPU cycles busy-looping in this sample
             sleep(50);
-            //Four rings identification
-            if (pipeline.getAnalysis() > 150){
-                encoderDrive(0.2,6,6,6,6,5.0);
-            }
-            //One ring identification
-            else if (pipeline.getAnalysis() > 135){
-                encoderDrive(0.2,10,10,10,10,5.0);
-            }
         }
     }
 
@@ -150,7 +158,7 @@ public class Autonums_test extends LinearOpMode
         /*
          * The core values which define the location and size of the sample regions
          */
-        static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(200,150);
+        static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(250,135);
 
         static final int REGION_WIDTH = 35;
         static final int REGION_HEIGHT = 25;
@@ -226,6 +234,7 @@ public class Autonums_test extends LinearOpMode
 
             return input;
         }
+
         public int getAnalysis()
         {
             return avg1;
@@ -244,27 +253,27 @@ public class Autonums_test extends LinearOpMode
         if (opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
-            newFrontLeftTarget = robot.FrontLeft.getCurrentPosition() + (int)(FrontLeftInches * COUNTS_PER_INCH);
-            newFrontRightTarget = robot.FrontRight.getCurrentPosition() + (int)(FrontRightInches * COUNTS_PER_INCH);
-            newBackLeftTarget = robot.BackLeft.getCurrentPosition() + (int)(BackLeftInches * COUNTS_PER_INCH);
-            newBackRightTarget = robot.BackRight.getCurrentPosition() + (int)(BackRightInches * COUNTS_PER_INCH);
-            robot.FrontLeft.setTargetPosition(newFrontLeftTarget);
-            robot.FrontRight.setTargetPosition(newFrontRightTarget);
-            robot.BackLeft.setTargetPosition(newBackLeftTarget);
-            robot.BackRight.setTargetPosition(newBackRightTarget);
+            newFrontLeftTarget = robot.frontLeft.getCurrentPosition() + (int)(FrontLeftInches * COUNTS_PER_INCH);
+            newFrontRightTarget = robot.frontRight.getCurrentPosition() + (int)(FrontRightInches * COUNTS_PER_INCH);
+            newBackLeftTarget = robot.backLeft.getCurrentPosition() + (int)(BackLeftInches * COUNTS_PER_INCH);
+            newBackRightTarget = robot.backRight.getCurrentPosition() + (int)(BackRightInches * COUNTS_PER_INCH);
+            robot.frontLeft.setTargetPosition(newFrontLeftTarget);
+            robot.frontRight.setTargetPosition(newFrontRightTarget);
+            robot.backLeft.setTargetPosition(newBackLeftTarget);
+            robot.backRight.setTargetPosition(newBackRightTarget);
 
             // Turn On RUN_TO_POSITION
-            robot.FrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.FrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.BackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.BackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
             // reset the timeout time and start motion.
             runtime.reset();
-            robot.FrontLeft.setPower(Math.abs(speed));
-            robot.FrontRight.setPower(Math.abs(speed));
-            robot.BackLeft.setPower(Math.abs(speed));
-            robot.BackRight.setPower(Math.abs(speed));
+            robot.frontLeft.setPower(Math.abs(speed));
+            robot.frontRight.setPower(Math.abs(speed));
+            robot.backLeft.setPower(Math.abs(speed));
+            robot.backRight.setPower(Math.abs(speed));
 
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
@@ -274,31 +283,32 @@ public class Autonums_test extends LinearOpMode
             // onto the next step, use (isBusy() || isBusy()) in the loop test.
             while (opModeIsActive() &&
                     (runtime.seconds() < timeoutS) &&
-                    (robot.FrontLeft.isBusy() && robot.FrontRight.isBusy() && robot.FrontLeft.isBusy() && robot.FrontRight.isBusy())) {
+                    (robot.frontLeft.isBusy() && robot.frontRight.isBusy() && robot.frontLeft.isBusy() && robot.frontRight.isBusy())) {
 
                 // Display it for the driver.
                 telemetry.addData("Path1",  "Running to %7d :%7d", newFrontLeftTarget,  newFrontRightTarget, newBackLeftTarget, newBackRightTarget);
                 telemetry.addData("Path2",  "Running at %7d :%7d",
-                        robot.FrontLeft.getCurrentPosition(),
-                        robot.FrontRight.getCurrentPosition(),
-                        robot.BackLeft.getCurrentPosition(),
-                        robot.BackRight.getCurrentPosition());
+                        robot.frontLeft.getCurrentPosition(),
+                        robot.frontRight.getCurrentPosition(),
+                        robot.backLeft.getCurrentPosition(),
+                        robot.backRight.getCurrentPosition());
                 telemetry.update();
             }
 
             // Stop all motion;
-            robot.FrontLeft.setPower(0);
-            robot.FrontRight.setPower(0);
-            robot.BackLeft.setPower(0);
-            robot.BackRight.setPower(0);
+            robot.frontLeft.setPower(0);
+            robot.frontRight.setPower(0);
+            robot.backLeft.setPower(0);
+            robot.backRight.setPower(0);
 
             // Turn off RUN_TO_POSITION
-            robot.FrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            robot.FrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            robot.BackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            robot.BackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
             //  sleep(250);   // optional pause after each move
+            return;
         }
     }
 }
