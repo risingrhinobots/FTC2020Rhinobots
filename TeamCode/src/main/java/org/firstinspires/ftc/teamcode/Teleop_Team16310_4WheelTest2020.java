@@ -51,7 +51,7 @@ import com.qualcomm.robotcore.util.Range;
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
-@TeleOp(name = "Test 4 Wheel Drive 2020", group = "Test2020")
+@TeleOp(name = "Ultimate_Game V1", group = "Test2020")
 //@Disabled
 public class Teleop_Team16310_4WheelTest2020 extends LinearOpMode {
 
@@ -64,6 +64,16 @@ public class Teleop_Team16310_4WheelTest2020 extends LinearOpMode {
     private DcMotor FrontLeftDrive = null;
     private DcMotor FrontRightDrive = null;
     private DcMotor InTakeMotor = null;
+    private DcMotor ConveyorMotor = null;
+    private DcMotor LeftShooter = null;
+    private DcMotor RightShooter = null;
+    Servo   gateServo;
+    Servo   armServo;
+    Servo   gripServo;
+    double  armPosition, gripPosition, gatePosition;
+    double  MIN_POSITION = 0, MAX_POSITION = 1;
+
+
     @Override
     public void runOpMode() {
 
@@ -73,6 +83,15 @@ public class Teleop_Team16310_4WheelTest2020 extends LinearOpMode {
         FrontLeftDrive  = hardwareMap.get(DcMotor.class, "FrontLeft");
         FrontRightDrive = hardwareMap.get(DcMotor.class, "FrontRight");
         InTakeMotor = hardwareMap.get(DcMotor.class, "InTake");
+        ConveyorMotor = hardwareMap.get(DcMotor.class, "Conveyor");
+        LeftShooter = hardwareMap.get(DcMotor.class, "LeftShooter");
+        RightShooter = hardwareMap.get(DcMotor.class, "RightShooter");
+        armServo = hardwareMap.get(Servo.class,"arm");
+        gripServo = hardwareMap.get(Servo.class,"grip");
+        // wait for start button.
+        armPosition=0.09;
+        gripPosition=0.95;
+
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
         //This is very important to keep left drive to forward and right drive to REVERSE
@@ -81,7 +100,9 @@ public class Teleop_Team16310_4WheelTest2020 extends LinearOpMode {
         FrontLeftDrive.setDirection(DcMotor.Direction.FORWARD);
         FrontRightDrive.setDirection(DcMotor.Direction.REVERSE);
         InTakeMotor.setDirection(DcMotor.Direction.REVERSE);
-
+        ConveyorMotor.setDirection(DcMotor.Direction.FORWARD);
+        LeftShooter.setDirection(DcMotor.Direction.FORWARD);
+        RightShooter.setDirection(DcMotor.Direction.REVERSE);
         // Wait for the start button
         telemetry.addData(">", "Press Start to scan Servo." );
         telemetry.update();
@@ -93,6 +114,7 @@ public class Teleop_Team16310_4WheelTest2020 extends LinearOpMode {
             // Setup a variable for each drive wheel to save power level for telemetry
             double leftPower;
             double rightPower;
+
 
             // Choose to drive using either Tank Mode, or POV Mode
             // Comment out the method that's not used.  The default below is POV.
@@ -111,17 +133,58 @@ public class Teleop_Team16310_4WheelTest2020 extends LinearOpMode {
 
             double drive = gamepad1.left_stick_y;
             double turn = -gamepad1.right_stick_x;
-            leftPower = Range.clip(drive + turn * 0.2, -1, 1);
-            rightPower = Range.clip(drive - turn * 0.2, -1, 1);
+            leftPower = Range.clip(drive * 0.7 + turn * 0.4, -1, 1);
+            rightPower = Range.clip(drive * 0.7 - turn * 0.4, -1, 1);
 
             // Send calculated power to wheels
             BackLeftDrive.setPower(leftPower);
             BackRightDrive.setPower(rightPower);
             FrontLeftDrive.setPower(leftPower);
             FrontRightDrive.setPower(rightPower);
-            InTakeMotor.setPower(gamepad1.left_trigger);
-        }
-    }
-}
+
+            if (gamepad1.left_trigger > 0) {
+                InTakeMotor.setPower(gamepad1.left_trigger);
+            }
+            if (gamepad1.right_trigger > 0) {
+                InTakeMotor.setPower(-gamepad1.right_trigger);
+            }
+
+            while (gamepad1.x) {
+                InTakeMotor.setPower(1);
+                ConveyorMotor.setPower(1);
+                LeftShooter.setPower(1);
+                RightShooter.setPower(1);
+            }
+            if (gamepad1.y) {
+                InTakeMotor.setPower(0);
+                ConveyorMotor.setPower(0);
+                LeftShooter.setPower(0);
+                RightShooter.setPower(0);
+            }
+
+            if (gamepad1.b) {
+                //extend arm and open gripper to pick up the wobble
+                armPosition = 0.22;
+                gripPosition = 0.55;
+                armServo.setPosition(armPosition);
+                sleep(1500);
+                gripServo.setPosition(gripPosition);
+                ;
+
+            }
+            if (gamepad1.a) {
+                //reset the arm to starting lift up position to lift the wobble
+                armPosition = 0.07;
+                gripPosition = 1;
+
+                gripServo.setPosition(gripPosition);
+                sleep(1000);
+                armServo.setPosition(armPosition);
+                armServo.close();
+
+            }
+        }  // End of While loop
+    }   // end of runopmode
+} // end of program
 
 
