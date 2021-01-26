@@ -29,9 +29,7 @@
 
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -52,7 +50,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Servo channel:  Servo to open left claw:  "left_hand"
  * Servo channel:  Servo to open right claw: "right_hand"
  */
-public class HardwarePushbot_TC
+public class HardwarePushbot_TC_Test
 {
     /* Public OpMode members. */
     public DcMotor  frontLeft   = null;
@@ -82,7 +80,7 @@ public class HardwarePushbot_TC
     private ElapsedTime period  = new ElapsedTime();
 
     /* Constructor */
-    public HardwarePushbot_TC(){
+    public HardwarePushbot_TC_Test(){
 
     }
 
@@ -91,75 +89,38 @@ public class HardwarePushbot_TC
         // Save reference to Hardware map
         hwMap = ahwMap;
 
-        // Define and Initialize Motors
-        frontLeft  = hwMap.get(DcMotor.class, "FrontLeft");
-        frontRight = hwMap.get(DcMotor.class, "FrontRight");
-        backLeft =  hwMap.get(DcMotor.class, "BackLeft");
-        backRight = hwMap.get(DcMotor.class, "BackRight");
+
         // Define and Initialize Motors
         leftShooter  = hwMap.get(DcMotor.class, "LeftShooter");
         rightShooter = hwMap.get(DcMotor.class, "RightShooter");
-        conveyor =  hwMap.get(DcMotor.class, "Conveyor");
-        intake = hwMap.get(DcMotor.class, "InTake");
 
 
-
-
-
-        armServo = hwMap.get(Servo.class,"arm");
-        gripServo = hwMap.get(Servo.class,"grip");
-
-        frontLeft.setDirection(DcMotor.Direction.REVERSE); // Set to REVERSE if using AndyMark motors
-        frontRight.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
-        backLeft.setDirection(DcMotor.Direction.REVERSE);
-        backRight.setDirection(DcMotor.Direction.FORWARD);
 
 
 
 
         leftShooter.setDirection(DcMotor.Direction.FORWARD);
         rightShooter.setDirection(DcMotor.Direction.REVERSE);
-        intake.setDirection(DcMotor.Direction.REVERSE);
-        conveyor.setDirection(DcMotor.Direction.FORWARD);
 
 
 
-        frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         leftShooter.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightShooter.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        conveyor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
 
         // Set all motors to zero power
-        frontLeft.setPower(0);
-        frontRight.setPower(0);
-        backLeft.setPower(0);
-        backRight.setPower(0);
         leftShooter.setPower(0);
         rightShooter.setPower(0);
-        intake.setPower(0);
-        conveyor.setPower(0);
 
 
 
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
-        frontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        frontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        backLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        backRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-        leftShooter.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightShooter.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        conveyor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftShooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightShooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
 

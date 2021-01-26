@@ -30,15 +30,14 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import org.firstinspires.ftc.teamcode.HardwarePushbot_TC;
 
 //import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
 //import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
-import org.firstinspires.ftc.teamcode.HardwarePushbot_TC;
+
+
 /**
  * This file illustrates the concept of driving a path based on encoder counts.
  * It uses the common Pushbot hardware class to define the drive on the robot.
@@ -66,9 +65,9 @@ import org.firstinspires.ftc.teamcode.HardwarePushbot_TC;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Pushbot: Auto Drive By Encoder", group="Pushbot")
+@Autonomous(name="Pushbot: Blue_Right_C", group="UltimateGame")
 //@Disabled
-public class AutoDriveByEncoder_Linear_TC extends LinearOpMode {
+public class Autonomous_UltimateGame_Blue_RightC extends LinearOpMode {
 
     /* Declare OpMode members. */
     HardwarePushbot_TC robot   = new HardwarePushbot_TC();   // Use a Pushbot's hardware
@@ -80,7 +79,7 @@ public class AutoDriveByEncoder_Linear_TC extends LinearOpMode {
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
                                                       (WHEEL_DIAMETER_INCHES * 3.1415);
     static final double     DRIVE_SPEED             = 0.5;
-    static final double     TURN_SPEED              = 0.5;
+    static final double     TURN_SPEED              = 0.3;
 
     @Override
     public void runOpMode() {
@@ -124,12 +123,17 @@ public class AutoDriveByEncoder_Linear_TC extends LinearOpMode {
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
         // FORWARD DRIVE SAMPLE. reverse drive will be all negative values
-        encoderDrive(DRIVE_SPEED, 95,95,95,95, 5);
+
+        //Drive forward to the target BOX
+        encoderDrive(DRIVE_SPEED, 110,110,110,110, 5);
         // S1: Forward 50 Inches with 5 Sec timeout
         //following is an example of left turn
         // encoderDrive(TURN_SPEED,-10,10,-10,10,4);
         //following is an example of right turn
-        encoderDrive(TURN_SPEED,10,-10,10,-10,4);  // S2: Turn Right 12 Inches with 4 Sec timeout
+        //turn right since this is blue corner to drop the wobble from the back of the robot
+        encoderDrive(TURN_SPEED,12,-12,12,-12,4);  // S2: Turn Right 12 Inches with 4 Sec timeout
+        //after turning drive backwords so that the wobble can be dropped in the target
+        encoderDrive(DRIVE_SPEED,-20,-20,-20,-20,4);  // S2: Turn Right 12 Inches with 4 Sec timeout
 
         //get the arm and gripper to drop the wobble
         armPosition = 0.2;
@@ -138,7 +142,9 @@ public class AutoDriveByEncoder_Linear_TC extends LinearOpMode {
         sleep(2500);
         robot.gripServo.setPosition(gripPosition);
         sleep(2000);
-        encoderDrive(DRIVE_SPEED, 5,5,5,5, 5);
+
+        //move forward to clear away from wobble
+        encoderDrive(DRIVE_SPEED, 7,7,7,7, 5);
 
         //reset the arm and gripper to starting position
         armPosition = 0.09;
@@ -146,23 +152,26 @@ public class AutoDriveByEncoder_Linear_TC extends LinearOpMode {
         robot.armServo.setPosition(armPosition);
         robot.gripServo.setPosition(gripPosition);
 
+        //turn left towards the shooting target zone
+        encoderDrive(TURN_SPEED, -11.5,11.5,-11.5,11.5, 5);
+        //back towards out of the launch line
 
-        encoderDrive(DRIVE_SPEED, -10,10,-10,10, 5);
+        encoderDrive(DRIVE_SPEED, -50,-50,-50,-50, 5);
 
-        encoderDrive(DRIVE_SPEED, -30,-30,-30,-30, 5);
-        encoderDrive(TURN_SPEED,-2,2,-2,2,4);
+        //encoderDrive(TURN_SPEED,-2,2,-2,2,4);
 
         int i = 0;
 
             robot.conveyor.setPower(1);
             robot.leftShooter.setPower(1);
             robot.rightShooter.setPower(1);
-            sleep(1500);
+            sleep(3000);
 
         robot.conveyor.setPower(0);
         robot.leftShooter.setPower(0);
         robot.rightShooter.setPower(0);
-        encoderDrive(DRIVE_SPEED, 5,5,5,5, 5);
+        //drive to position on the launch line
+        encoderDrive(DRIVE_SPEED, 10,10,10,10, 5);
 
 
         telemetry.addData("Path", "Complete");

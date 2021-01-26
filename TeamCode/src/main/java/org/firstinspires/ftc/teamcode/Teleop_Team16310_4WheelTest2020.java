@@ -37,6 +37,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
+
 /**
  * This OpMode scans a single servo back and forwards until Stop is pressed.
  * The code is structured as a LinearOpMode
@@ -51,7 +52,7 @@ import com.qualcomm.robotcore.util.Range;
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
-@TeleOp(name = "Ultimate_Game V1", group = "Test2020")
+@TeleOp(name = "Ultimate_Game V1", group = "UltimateGame")
 //@Disabled
 public class Teleop_Team16310_4WheelTest2020 extends LinearOpMode {
 
@@ -88,6 +89,16 @@ public class Teleop_Team16310_4WheelTest2020 extends LinearOpMode {
         RightShooter = hardwareMap.get(DcMotor.class, "RightShooter");
         armServo = hardwareMap.get(Servo.class,"arm");
         gripServo = hardwareMap.get(Servo.class,"grip");
+
+        BackLeftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        BackRightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        FrontLeftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        FrontRightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        InTakeMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        ConveyorMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        LeftShooter.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        RightShooter.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         // wait for start button.
         armPosition=0.09;
         gripPosition=0.95;
@@ -103,6 +114,17 @@ public class Teleop_Team16310_4WheelTest2020 extends LinearOpMode {
         ConveyorMotor.setDirection(DcMotor.Direction.FORWARD);
         LeftShooter.setDirection(DcMotor.Direction.FORWARD);
         RightShooter.setDirection(DcMotor.Direction.REVERSE);
+
+        BackLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        BackRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        FrontLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        FrontRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        InTakeMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        ConveyorMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        LeftShooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        RightShooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+
         // Wait for the start button
         telemetry.addData(">", "Press Start to scan Servo." );
         telemetry.update();
@@ -135,6 +157,7 @@ public class Teleop_Team16310_4WheelTest2020 extends LinearOpMode {
             double turn = -gamepad1.right_stick_x;
             leftPower = Range.clip(drive * 0.7 + turn * 0.4, -1, 1);
             rightPower = Range.clip(drive * 0.7 - turn * 0.4, -1, 1);
+            //leftPower = math.pow
 
             // Send calculated power to wheels
             BackLeftDrive.setPower(leftPower);
@@ -182,6 +205,14 @@ public class Teleop_Team16310_4WheelTest2020 extends LinearOpMode {
                 armServo.setPosition(armPosition);
                 armServo.close();
 
+            }
+
+            if (gamepad1.dpad_up){
+                ConveyorMotor.setPower(1);
+            }
+
+            if (gamepad1.dpad_down){
+                ConveyorMotor.setPower(-1);
             }
         }  // End of While loop
     }   // end of runopmode
