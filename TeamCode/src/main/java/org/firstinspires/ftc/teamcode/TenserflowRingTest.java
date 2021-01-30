@@ -36,7 +36,8 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvInternalCamera;
 import org.openftc.easyopencv.OpenCvPipeline;
 
-@TeleOp
+@TeleOp(name = "Ring Test", group = "UltimateGame")
+//disabled
 public class TenserflowRingTest extends LinearOpMode
 {
     OpenCvInternalCamera phoneCam;
@@ -99,7 +100,9 @@ public class TenserflowRingTest extends LinearOpMode
         /*
          * The core values which define the location and size of the sample regions
          */
-        static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(40,185);
+        //static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(40,140); //Blue Right position
+
+        static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(250,140); //Blue Right position
 
         static final int REGION_WIDTH = 35;
         static final int REGION_HEIGHT = 25;
