@@ -90,6 +90,7 @@ public class Autonomous_UltimateGame_Blue_RightA extends LinearOpMode {
          */
         double armPosition=0.09;
         double gripPosition=0.95;
+        double guidePosition= 0.2;
 
         robot.init(hardwareMap);
 
@@ -161,15 +162,17 @@ public class Autonomous_UltimateGame_Blue_RightA extends LinearOpMode {
         //encoderDrive(TURN_SPEED,-2,2,-2,2,4);
 
         int i = 0;
-
+            robot.guideServo.setPosition(guidePosition);
             robot.conveyor.setPower(1);
             robot.leftShooter.setPower(1);
             robot.rightShooter.setPower(1);
-            sleep(3000);
+            robot.intake.setPower(1);
+            sleep(6000);
 
         robot.conveyor.setPower(0);
         robot.leftShooter.setPower(0);
         robot.rightShooter.setPower(0);
+        robot.intake.setPower(0);
         //drive to position on the launch line
         encoderDrive(DRIVE_SPEED, 10,10,10,10, 5);
 

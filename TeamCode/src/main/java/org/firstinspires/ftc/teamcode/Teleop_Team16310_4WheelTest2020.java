@@ -71,7 +71,8 @@ public class Teleop_Team16310_4WheelTest2020 extends LinearOpMode {
     Servo   gateServo;
     Servo   armServo;
     Servo   gripServo;
-    double  armPosition, gripPosition, gatePosition;
+    Servo   guideServo;
+    double  armPosition, gripPosition, gatePosition,guidePosition;
     double  MIN_POSITION = 0, MAX_POSITION = 1;
 
 
@@ -89,7 +90,7 @@ public class Teleop_Team16310_4WheelTest2020 extends LinearOpMode {
         RightShooter = hardwareMap.get(DcMotor.class, "RightShooter");
         armServo = hardwareMap.get(Servo.class,"arm");
         gripServo = hardwareMap.get(Servo.class,"grip");
-
+        guideServo = hardwareMap.get(Servo.class,"guide");
         BackLeftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         BackRightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         FrontLeftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -102,6 +103,7 @@ public class Teleop_Team16310_4WheelTest2020 extends LinearOpMode {
         // wait for start button.
         armPosition=0.09;
         gripPosition=0.95;
+        guidePosition=0.55;
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
@@ -111,9 +113,9 @@ public class Teleop_Team16310_4WheelTest2020 extends LinearOpMode {
         FrontLeftDrive.setDirection(DcMotor.Direction.FORWARD);
         FrontRightDrive.setDirection(DcMotor.Direction.REVERSE);
         InTakeMotor.setDirection(DcMotor.Direction.REVERSE);
-        ConveyorMotor.setDirection(DcMotor.Direction.FORWARD);
-        LeftShooter.setDirection(DcMotor.Direction.FORWARD);
-        RightShooter.setDirection(DcMotor.Direction.REVERSE);
+        ConveyorMotor.setDirection(DcMotor.Direction.REVERSE);
+        LeftShooter.setDirection(DcMotor.Direction.REVERSE);
+        RightShooter.setDirection(DcMotor.Direction.FORWARD);
 
         BackLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         BackRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -170,6 +172,7 @@ public class Teleop_Team16310_4WheelTest2020 extends LinearOpMode {
             }
             if (gamepad1.right_trigger > 0) {
                 InTakeMotor.setPower(-gamepad1.right_trigger);
+                ConveyorMotor.setPower(-1);
             }
 
             while (gamepad1.x) {
@@ -192,7 +195,7 @@ public class Teleop_Team16310_4WheelTest2020 extends LinearOpMode {
                 armServo.setPosition(armPosition);
                 sleep(1500);
                 gripServo.setPosition(gripPosition);
-                ;
+
 
             }
             if (gamepad1.a) {
@@ -207,13 +210,21 @@ public class Teleop_Team16310_4WheelTest2020 extends LinearOpMode {
 
             }
 
+
+
             if (gamepad1.dpad_up){
-                ConveyorMotor.setPower(1);
+                guidePosition=0.55;
+                guideServo.setPosition(guidePosition);
             }
 
             if (gamepad1.dpad_down){
-                ConveyorMotor.setPower(-1);
+                guidePosition=0.2;
+                guideServo.setPosition(guidePosition);
+                sleep(1000);
+                guidePosition=0.55;
+                guideServo.setPosition(guidePosition);
             }
+
         }  // End of While loop
     }   // end of runopmode
 } // end of program

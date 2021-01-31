@@ -100,9 +100,9 @@ public class TenserflowRingTest extends LinearOpMode
         /*
          * The core values which define the location and size of the sample regions
          */
-        //static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(40,140); //Blue Right position
+      static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(65,130); //Blue Rright position
 
-        static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(250,140); //Blue Right position
+     //  static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(265,130); //Blue left position
 
         static final int REGION_WIDTH = 35;
         static final int REGION_HEIGHT = 25;

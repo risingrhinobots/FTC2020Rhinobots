@@ -60,7 +60,7 @@ public class Servotest extends LinearOpMode {
 
     private Servo servo = null;
 
-    double servoposition = 0.95;
+    double servoposition = 0.55;
 
     @Override
     public void runOpMode() {
@@ -71,7 +71,7 @@ public class Servotest extends LinearOpMode {
         // to 'get' must correspond to the names assigned during the robot configuration
         // step (using the FTC Robot Controller app on the phone).
 
-        servo = hardwareMap.get(Servo.class, "arm");
+        servo = hardwareMap.get(Servo.class, "guide");
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
@@ -85,38 +85,27 @@ public class Servotest extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
-            // Setup a variable for each drive wheel to save power level for telemetry
 
-
-            // Choose to drive using either Tank Mode, or POV Mode
-            // Comment out the method that's not used.  The default below is POV.
-
-            // POV Mode uses left stick to go forward, and right stick to turn.
-            // - This uses basic math to combine motions and is easier to drive straight.
-
-            // Tank Mode uses one stick to control each wheel.
-            // - This requires no math, but it is hard to drive forward slowly and keep straight.
-            // leftPower  = -gamepad1.left_stick_y ;
-            // rightPower = -gamepad1.right_stick_y ;
-
-            if(gamepad1.a){
-                servoposition = servoposition + 0.01;
-                if(servoposition >= 1.0){
-                    servoposition = 1.0;
+            if(gamepad1.dpad_up){
+                servoposition = servoposition + 0.001;
+                if(servoposition >= 0.55){
+                    servoposition = 0.55;
                 }
             }
 
-            if (gamepad1.b){
-                servoposition = servoposition -  0.01;
-                if(servoposition <= 0.0){
-                    servoposition = 0.0;
+            if (gamepad1.dpad_down){
+                servoposition = servoposition -  0.001;
+                if(servoposition <= 0.2){
+                    servoposition = 0.2;
                 }
             }
 
             if(gamepad1.x){
                 servoposition = 0.55;
             }
-
+            if(gamepad1.y){
+                servoposition = 0.02;
+            }
             // Send calculated power to wheels
             servo.setPosition(servoposition);
 
